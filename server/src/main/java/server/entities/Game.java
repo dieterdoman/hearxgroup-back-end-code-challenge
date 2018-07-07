@@ -30,6 +30,10 @@ public class Game
     @JsonIgnore
     private Set<Player> players = new HashSet<>();
 
+    @OneToMany(mappedBy="game", cascade = { CascadeType.ALL })
+    @JsonIgnore
+    private Set<Round> rounds;
+
     public Game()
     {
 

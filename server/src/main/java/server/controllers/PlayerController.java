@@ -1,34 +1,30 @@
 package server.controllers;
 
 import lombok.extern.slf4j.Slf4j;
-import org.cloudifysource.restDoclet.annotations.PossibleResponseStatus;
-import org.cloudifysource.restDoclet.annotations.PossibleResponseStatuses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.*;
 import server.dao.PlayerDao;
 import server.entities.Player;
 
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "/player")
+@RequestMapping
 @Slf4j
 public class PlayerController
 {
     @Autowired
     private PlayerDao playerDao;
 
-    @PossibleResponseStatuses(responseStatuses = {
-            @PossibleResponseStatus(code = 200, description = "Player was successfully created."),
-            @PossibleResponseStatus(code = 400, description = "Player already exists with current name.")
-    })
-    @RequestMapping(value = "/create/{name}")
-    public ResponseEntity<Void> createPlayer(@PathVariable String name)
+    @PostMapping(value = "/player/create")
+    public ResponseEntity<Void> createPlayer(@RequestBody MultiValueMap<String, String> body)
     {
+        String name = body.getFirst("playerName");
         Optional<Player> player = playerDao.findById(name);
         if (player.isPresent()) {
             logger.error(MessageFormat.format("{0} already exist", player.get().getName()));
@@ -36,5 +32,13 @@ public class PlayerController
         }
         playerDao.saveAndFlush(new Player(name));
         return ResponseEntity.ok().build();
+    }
+
+    @RequestMapping(value = "/players")
+    public ResponseEntity<List<String>> listPlayers()
+    {
+        return ResponseEntity.ok(playerDao.findAll().stream()
+                .map(Player::getName)
+                .collect(Collectors.toList()));
     }
 }

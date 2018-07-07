@@ -22,6 +22,10 @@ public class Player
     @JsonIgnore
     private Set<Game> games = new HashSet<>();
 
+    @OneToMany(mappedBy="player")
+    @JsonIgnore
+    private Set<Score> scores;
+
     public Player()
     {
 
