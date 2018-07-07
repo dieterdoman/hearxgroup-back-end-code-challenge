@@ -1,22 +1,25 @@
 package server.entities;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
 @Entity
 @Table(name = "Players")
+@Getter
+@Setter
 public class Player
 {
     @Id
+    @Column(name = "player_name")
     private String name;
+
     @ManyToMany(mappedBy = "players")
+    @JsonIgnore
     private Set<Game> games = new HashSet<>();
 
     public Player()

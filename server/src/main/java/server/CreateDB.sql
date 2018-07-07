@@ -1,14 +1,16 @@
 CREATE TABLE games (
-    name varchar(255) PRIMARY KEY ,
-    current_status varchar(255)
+    game_name varchar(255),
+    game_status varchar(255),
+    PRIMARY KEY (game_name)
 );
 
 CREATE TABLE players (
-    name varchar(255) PRIMARY KEY
+    player_name varchar(255),
+    PRIMARY KEY (player_name)
 );
 
 CREATE TABLE games_players (
-  id INTEGER primary key,
-  player_id varchar(255) REFERENCES players (name),
-  game_id varchar(255) REFERENCES games (name)
+  player_name varchar(255) REFERENCES players (player_name),
+  game_name varchar(255) REFERENCES games (game_name),
+  PRIMARY KEY (player_name, game_name)
 );

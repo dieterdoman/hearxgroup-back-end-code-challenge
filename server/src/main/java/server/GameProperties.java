@@ -1,11 +1,11 @@
 package server;
 
 import lombok.Data;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
-@Configuration
-@PropertySource("classpath:game-settings.properties")
+@ConfigurationProperties("game")
+@Component
 @Data
 public class GameProperties
 {
