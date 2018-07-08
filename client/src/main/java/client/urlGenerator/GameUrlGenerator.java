@@ -57,4 +57,14 @@ public class GameUrlGenerator extends ServerUrlGenerator
                 serverProperties.getPort(),
                 GAME);
     }
+
+    public String getLeaderboard(String gameName)
+    {
+        return MessageFormat.format("{0}{1}:{2}/{3}/{4}/score",
+                HTTP,
+                serverProperties.getIp(),
+                serverProperties.getPort(),
+                GAME,
+                gameName);
+    }
 }

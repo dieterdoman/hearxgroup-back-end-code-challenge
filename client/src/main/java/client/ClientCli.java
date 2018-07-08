@@ -27,6 +27,8 @@ public class ClientCli
     private GameUrlGenerator gameUrlGenerator;
     @Autowired
     private GameService gameService;
+    @Autowired
+    private OutputLeaderboard outputLeaderboard;
 
     @ShellMethod("list open games")
     public void listOpenGames()
@@ -101,5 +103,13 @@ public class ClientCli
             }
         }
         gameService.runGame(gameName, playerName);
+    }
+
+    @ShellMethod("view game result")
+    public void viewGameResult(String gameName)
+    {
+        outputLeaderboard
+                .outputLeaderboard(restTemplate.getForObject(gameUrlGenerator.getLeaderboard(gameName), List.class))
+                .forEach(System.out::println);
     }
 }

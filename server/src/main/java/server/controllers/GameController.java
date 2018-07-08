@@ -96,7 +96,7 @@ public class GameController
     }
 
     @RequestMapping("/game/{gameName}/score")
-    public ResponseEntity<List<Score>> getScoresOfGame(@PathVariable String gameName)
+    public ResponseEntity<List<RoundStatistic>> getScoresOfGame(@PathVariable String gameName)
     {
         Optional<Game> gameOptional = gameDao.findById(gameName);
         return gameOptional.map(game -> ResponseEntity.ok(scoreService.getScoresForGame(game))).orElseGet(() -> ResponseEntity.badRequest().build());

@@ -27,6 +27,7 @@ public class RoundService
             round.setRoundNumber(i);
             round.setNumber1(new Random().nextInt(9) + 1);
             round.setNumber2(new Random().nextInt(9) + 1);
+            round.setAnswer(round.getNumber1() * round.getNumber2());
             round.setGame(game);
             rounds.add(round);
         }

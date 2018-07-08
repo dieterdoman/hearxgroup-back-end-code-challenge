@@ -3,13 +3,12 @@ package server.services;
 import org.springframework.stereotype.Service;
 import server.dao.RoundDao;
 import server.dao.ScoreDao;
-import server.entities.Game;
-import server.entities.Player;
-import server.entities.Round;
-import server.entities.Score;
+import server.entities.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ScoreService
@@ -41,9 +40,27 @@ public class ScoreService
         return false;
     }
 
-    public List<Score> getScoresForGame(Game game)
+    public List<RoundStatistic> getScoresForGame(Game game)
     {
-        return scoreDao.findAllByRound(roundDao.findByGame(game));
+        List<Optional<Score>> scores = new ArrayList<>();
+        roundDao.findByGame(game).stream()
+                .map(round -> scoreDao.findByRound(round))
+        .forEach(scores::add);
+        return scores.stream()
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .map(this::convertToStatistics)
+                .collect(Collectors.toList());
+    }
+
+    private RoundStatistic convertToStatistics(Score score)
+    {
+        RoundStatistic roundStatistic = new RoundStatistic();
+        roundStatistic.setPlayerName(score.getPlayer().getName());
+        roundStatistic.setRoundNumber(score.getRound().getRoundNumber());
+        roundStatistic.setCorrect(score.getScore() == score.getRound().getAnswer());
+        roundStatistic.setResponseTime(score.getResponseTime());
+        return roundStatistic;
     }
 
 }
