@@ -1,13 +1,11 @@
 package client;
 
 import client.urlGenerator.GameUrlGenerator;
-import org.springframework.shell.table.ArrayTableModel;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import javax.swing.table.TableModel;
 import java.io.IOException;
 import java.util.*;
 
@@ -33,7 +31,6 @@ public class GameService
         rounds.sort(Comparator.comparing(round -> Integer.parseInt(round.get("roundNumber").toString())));
         for (LinkedHashMap<String, Object> gameRound : rounds) {
             GameRoundResult gameRoundResult = answerInput.getAnswer(Integer.parseInt(gameRound.get("number1").toString()), Integer.parseInt(gameRound.get("number2").toString()));
-
             MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
             parameters.add("gameName", gameName);
             parameters.add("playerName", playerName);

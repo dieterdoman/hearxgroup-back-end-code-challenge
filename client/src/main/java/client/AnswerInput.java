@@ -19,7 +19,7 @@ public class AnswerInput
         this.consoleReader = consoleReader;
     }
 
-    public  GameRoundResult getAnswer(Integer number1, Integer number2) throws IOException
+    public GameRoundResult getAnswer(Integer number1, Integer number2) throws IOException
     {
         consoleReader.setPrompt(MessageFormat.format("{0} x {1} = ", number1, number2));
 
