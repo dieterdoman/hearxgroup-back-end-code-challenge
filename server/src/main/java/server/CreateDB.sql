@@ -19,7 +19,6 @@ CREATE TABLE rounds (
   id integer,
   round_number integer,
   game_name varchar(255) REFERENCES games(game_name),
-  round_status varchar(255),
   number1 integer,
   number2 integer,
   answer integer,

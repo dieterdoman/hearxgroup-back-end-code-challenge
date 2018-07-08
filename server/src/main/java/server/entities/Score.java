@@ -13,6 +13,7 @@ import javax.persistence.*;
 public class Score
 {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int id;
     private int score;
     private int responseTime;

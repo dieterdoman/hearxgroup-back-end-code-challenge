@@ -26,8 +26,6 @@ public class Round
     private int number2;
     private int answer;
 
-    @Enumerated(EnumType.STRING)
-    private GameStatus roundStatus;
     private int roundNumber;
 
     @OneToMany(mappedBy="round")

@@ -7,10 +7,9 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import server.dao.PlayerDao;
 import server.entities.Player;
+import server.services.PlayerService;
 
-import java.text.MessageFormat;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -20,18 +19,17 @@ public class PlayerController
 {
     @Autowired
     private PlayerDao playerDao;
+    @Autowired
+    private PlayerService playerService;
 
     @PostMapping(value = "/player/create")
     public ResponseEntity<Void> createPlayer(@RequestBody MultiValueMap<String, String> body)
     {
         String name = body.getFirst("playerName");
-        Optional<Player> player = playerDao.findById(name);
-        if (player.isPresent()) {
-            logger.error(MessageFormat.format("{0} already exist", player.get().getName()));
-            return ResponseEntity.badRequest().build();
+        if (playerService.createPlayer(name)) {
+            return ResponseEntity.ok().build();
         }
-        playerDao.saveAndFlush(new Player(name));
-        return ResponseEntity.ok().build();
+        return ResponseEntity.badRequest().build();
     }
 
     @RequestMapping(value = "/players")
